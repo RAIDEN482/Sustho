@@ -1,31 +1,21 @@
-import { CheckCircle2 } from "lucide-react";
+"use client";
 
-const perks = [
-  "Unlimited period tracking",
-  "AI-powered predictions",
-  "Offline mode",
-  "Pain & mood tracking",
-  "Nutrition hub",
-  "Guardian access",
-  "PCOS & condition tracking",
-  "Doctor report export",
-  "All languages",
-  "No ads, ever",
-];
+import { CheckCircle2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function Pricing() {
+  const t = useTranslations("pricing");
+  const perks = t.raw("perks") as string[];
+
   return (
     <section id="pricing" className="bg-bg-dark-elevated py-16 sm:py-24">
       <div className="container-shustho flex flex-col items-center text-center">
-        <span className="eyebrow">No hidden costs</span>
-        <h2 className="section-title mt-3">Completely free. Forever.</h2>
-        <p lang="bn" className="mt-2 text-h4 text-text-secondary-dark">
-          সম্পূর্ণ বিনামূল্যে, চিরকাল
-        </p>
+        <span className="eyebrow">{t("eyebrow")}</span>
+        <h2 className="section-title mt-3">{t("title")}</h2>
 
         <div className="mt-10 w-full max-w-md rounded-2xl border border-border-dark bg-bg-dark p-8">
           <CheckCircle2 size={64} strokeWidth={1.8} className="mx-auto text-success" />
-          <p className="mt-4 text-display text-text-primary-dark">$0 / forever</p>
+          <p className="mt-4 text-display text-text-primary-dark">{t("price")}</p>
 
           <ul className="mt-6 space-y-2 text-left">
             {perks.map((p) => (
@@ -37,9 +27,9 @@ export default function Pricing() {
           </ul>
 
           <a href="#" className="btn-primary mt-8 w-full">
-            Download now
+            {t("cta")}
           </a>
-          <p className="mt-3 text-caption text-text-tertiary-dark">No credit card required</p>
+          <p className="mt-3 text-caption text-text-tertiary-dark">{t("note")}</p>
         </div>
       </div>
     </section>

@@ -1,6 +1,7 @@
 "use client";
 
 import { BarChart, Bar, Cell, LineChart, Line, ResponsiveContainer, XAxis, Tooltip } from "recharts";
+import { useTranslations } from "next-intl";
 
 const painData = [
   { day: "Mon", pain: 2 },
@@ -18,37 +19,36 @@ const moodData = Array.from({ length: 14 }, (_, i) => ({
 }));
 
 export default function DashboardPreview() {
+  const t = useTranslations("dashboardPreview");
+
   return (
     <section id="dashboard-preview" className="bg-bg-dark py-16 sm:py-24">
       <div className="container-shustho">
         <div className="max-w-xl">
-          <span className="eyebrow">Live preview</span>
-          <h2 className="section-title mt-3">Your health dashboard</h2>
-          <p lang="bn" className="mt-2 text-h4 text-text-secondary-dark">
-            আপনার স্বাস্থ্য ড্যাশবোর্ড
-          </p>
+          <span className="eyebrow">{t("eyebrow")}</span>
+          <h2 className="section-title mt-3">{t("title")}</h2>
         </div>
 
         <div className="mt-10 rounded-2xl border border-border-dark bg-bg-dark-elevated p-4 sm:p-6">
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             <div className="rounded-lg border-[1.5px] border-primary bg-bg-dark-muted p-5">
-              <span className="eyebrow text-primary">Cycle status</span>
-              <p className="mt-2 text-h2 text-text-primary-dark tabular-nums">Day 3 of period</p>
+              <span className="eyebrow text-primary">{t("cycleStatus")}</span>
+              <p className="mt-2 text-h2 text-text-primary-dark tabular-nums">{t("cycleStatusValue")}</p>
               <div className="mt-3 flex gap-4 text-body-sm text-text-secondary-dark">
-                <span>Medium flow</span>
+                <span>{t("mediumFlow")}</span>
                 <span>·</span>
-                <span>Mild cramps</span>
+                <span>{t("mildCramps")}</span>
               </div>
             </div>
 
             <div className="rounded-lg border-[1.5px] border-secondary bg-bg-dark-muted p-5">
-              <span className="eyebrow text-secondary">Next prediction</span>
-              <p className="mt-2 text-h2 text-text-primary-dark tabular-nums">Next period: Aug 28</p>
-              <div className="mt-3 text-body-sm text-text-secondary-dark">85% confidence</div>
+              <span className="eyebrow text-secondary">{t("nextPrediction")}</span>
+              <p className="mt-2 text-h2 text-text-primary-dark tabular-nums">{t("nextPredictionValue")}</p>
+              <div className="mt-3 text-body-sm text-text-secondary-dark">{t("confidence")}</div>
             </div>
 
             <div className="card">
-              <h3 className="text-h4 text-text-primary-dark">Pain — last 7 days</h3>
+              <h3 className="text-h4 text-text-primary-dark">{t("painChart")}</h3>
               <div className="mt-4 h-40">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={painData}>
@@ -77,7 +77,7 @@ export default function DashboardPreview() {
             </div>
 
             <div className="card">
-              <h3 className="text-h4 text-text-primary-dark">Mood — last 14 days</h3>
+              <h3 className="text-h4 text-text-primary-dark">{t("moodChart")}</h3>
               <div className="mt-4 h-40">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={moodData}>
@@ -105,8 +105,8 @@ export default function DashboardPreview() {
           </div>
 
           <div className="mt-6 flex justify-center">
-            <a href="/dashboard" className="btn-primary">
-              Try the full app
+            <a href="#pricing" className="btn-primary">
+              {t("cta")}
             </a>
           </div>
         </div>

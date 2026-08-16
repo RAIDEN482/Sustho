@@ -58,6 +58,7 @@ const config: Config = {
           "sans-serif",
         ],
         mono: ["SF Mono", "Fira Code", "JetBrains Mono", "monospace"],
+        bengali: ["var(--font-bengali)", "Inter", "sans-serif"],
       },
       fontSize: {
         display: ["40px", { lineHeight: "1.1", fontWeight: "500" }],

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Phone, Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 const hospitals = [
   {
@@ -27,28 +28,26 @@ const hospitals = [
   },
 ];
 
-const cities = ["All cities", "Dhaka", "Chittagong", "Sylhet", "Rajshahi", "Khulna", "Barisal", "Rangpur"];
+const cities = ["Dhaka", "Chittagong", "Sylhet", "Rajshahi", "Khulna", "Barisal", "Rangpur"];
 
 export default function DoctorNetwork() {
-  const [city, setCity] = useState("All cities");
-  const filtered = hospitals.filter((h) => city === "All cities" || h.city === city);
+  const t = useTranslations("doctors");
+  const [city, setCity] = useState("All");
+  const filtered = hospitals.filter((h) => city === "All" || h.city === city);
 
   return (
     <section id="doctors" className="bg-bg-dark py-16 sm:py-24">
       <div className="container-shustho">
         <div className="max-w-xl">
-          <span className="eyebrow">Real help, nearby</span>
-          <h2 className="section-title mt-3">Find a doctor</h2>
-          <p lang="bn" className="mt-2 text-h4 text-text-secondary-dark">
-            ডাক্তার খুঁজুন
-          </p>
+          <span className="eyebrow">{t("eyebrow")}</span>
+          <h2 className="section-title mt-3">{t("title")}</h2>
         </div>
 
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
           <div className="flex flex-1 items-center gap-2 rounded-md border border-border-dark bg-bg-dark-muted px-4 py-3">
             <Search size={18} strokeWidth={1.8} className="text-text-tertiary-dark" />
             <input
-              placeholder="Search hospitals or specialties"
+              placeholder={t("searchPlaceholder")}
               className="w-full bg-transparent text-body-sm text-text-primary-dark placeholder:text-text-tertiary-dark outline-none"
             />
           </div>
@@ -57,8 +56,11 @@ export default function DoctorNetwork() {
             onChange={(e) => setCity(e.target.value)}
             className="rounded-md border border-border-dark bg-bg-dark-muted px-4 py-3 text-body-sm text-text-primary-dark outline-none"
           >
+            <option value="All">{t("allCities")}</option>
             {cities.map((c) => (
-              <option key={c}>{c}</option>
+              <option key={c} value={c}>
+                {c}
+              </option>
             ))}
           </select>
         </div>
@@ -81,7 +83,7 @@ export default function DoctorNetwork() {
                 className="mt-4 flex items-center justify-center gap-2 rounded-md border-[1.5px] border-primary py-2.5 text-button text-primary transition-colors duration-normal hover:bg-primary/[0.08]"
               >
                 <Phone size={16} strokeWidth={1.8} />
-                Call now
+                {t("call")}
               </a>
             </div>
           ))}

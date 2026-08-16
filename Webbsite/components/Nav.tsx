@@ -2,16 +2,22 @@
 
 import { useState } from "react";
 import { Menu, X, Heart } from "lucide-react";
-
-const links = [
-  { label: "Features", href: "#features" },
-  { label: "How it works", href: "#how-it-works" },
-  { label: "Doctors", href: "#doctors" },
-  { label: "FAQ", href: "#faq" },
-];
+import { useTranslations, useLocale } from "next-intl";
+import { Link, usePathname } from "@/i18n/navigation";
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
+  const t = useTranslations("nav");
+  const locale = useLocale();
+  const pathname = usePathname();
+  const otherLocale = locale === "en" ? "bn" : "en";
+
+  const links = [
+    { label: t("features"), href: "#features" },
+    { label: t("howItWorks"), href: "#how-it-works" },
+    { label: t("doctors"), href: "#doctors" },
+    { label: t("faq"), href: "#faq" },
+  ];
 
   return (
     <header className="sticky top-0 z-50 border-b border-border-dark bg-bg-dark/90 backdrop-blur">
@@ -36,11 +42,15 @@ export default function Nav() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <button className="text-body-sm text-text-secondary-dark">
-            বাংলা / EN
-          </button>
+          <Link
+            href={pathname}
+            locale={otherLocale}
+            className="text-body-sm text-text-secondary-dark transition-colors duration-normal hover:text-text-primary-dark"
+          >
+            {t("langSwitch")}
+          </Link>
           <a href="#pricing" className="btn-primary">
-            Download app
+            {t("download")}
           </a>
         </div>
 
@@ -61,8 +71,11 @@ export default function Nav() {
                 {l.label}
               </a>
             ))}
+            <Link href={pathname} locale={otherLocale} className="text-body text-text-secondary-dark">
+              {t("langSwitch")}
+            </Link>
             <a href="#pricing" className="btn-primary w-full">
-              Download app
+              {t("download")}
             </a>
           </div>
         </div>

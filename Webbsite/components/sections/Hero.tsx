@@ -1,6 +1,12 @@
+"use client";
+
 import { ChevronDown } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { motion } from "framer-motion";
 
 export default function Hero() {
+  const t = useTranslations("hero");
+
   return (
     <section className="relative overflow-hidden bg-bg-dark">
       {/* Abstract cycle visualization — pink to blue gradient shapes, no stock photos */}
@@ -19,37 +25,37 @@ export default function Hero() {
         }}
       />
 
-      <div className="container-shustho relative flex flex-col items-center py-16 text-center sm:py-24">
-        <span className="eyebrow mb-4">Built for Bangladesh</span>
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        className="container-shustho relative flex flex-col items-center py-16 text-center sm:py-24"
+      >
+        <span className="eyebrow mb-4">{t("eyebrow")}</span>
         <h1 className="max-w-3xl text-h1 sm:text-display text-text-primary-dark">
-          Track your cycle. Own your health.
+          {t("headline")}
         </h1>
-        <p lang="bn" className="mt-3 max-w-2xl text-h3 text-text-secondary-dark">
-          আপনার সাইকেল ট্র্যাক করুন। আপনার স্বাস্থ্যের দায়িত্ব নিন।
-        </p>
         <p className="mt-6 max-w-xl text-body text-text-secondary-dark">
-          Shustho is a free, offline-first period and reproductive health tracker
-          built for Bangladesh. Your data stays on your device — private,
-          secure, and yours alone.
+          {t("sub")}
         </p>
 
         <div className="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
           <a href="#pricing" className="btn-primary">
-            Download app
+            {t("cta1")}
           </a>
           <a href="#dashboard-preview" className="btn-secondary">
-            Use web version
+            {t("cta2")}
           </a>
         </div>
 
         <a
           href="#features"
           aria-label="Scroll to features"
-          className="mt-16 animate-bounce text-text-tertiary-dark"
+          className="mt-16 motion-safe:animate-bounce text-text-tertiary-dark"
         >
           <ChevronDown size={24} strokeWidth={1.8} />
         </a>
-      </div>
+      </motion.div>
     </section>
   );
 }
