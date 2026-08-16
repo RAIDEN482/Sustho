@@ -1,0 +1,113 @@
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  darkMode: ["class"],
+  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          DEFAULT: "#E94560",
+          light: "#FF6B8A",
+          dark: "#C73E54",
+          50: "#FDE8EC",
+          100: "#FBD0D8",
+          500: "#E94560",
+          600: "#C73E54",
+        },
+        secondary: {
+          DEFAULT: "#58A6FF",
+          light: "#7AB8FF",
+          50: "#EAF4FF",
+          100: "#D4EAFF",
+        },
+        success: { DEFAULT: "#238636", light: "#2EA043", 50: "#DAFBE1" },
+        warning: { DEFAULT: "#D29922", light: "#E3B341", 50: "#FFF8C5" },
+        danger: { DEFAULT: "#DA3633", light: "#F85149", 50: "#FFEBE9" },
+        bg: {
+          dark: "#0D1117",
+          "dark-elevated": "#161B22",
+          "dark-muted": "#21262D",
+          light: "#FFFFFF",
+          "light-elevated": "#F6F8FA",
+          "light-muted": "#F3F4F6",
+        },
+        text: {
+          "primary-dark": "#C9D1D9",
+          "secondary-dark": "#8B949E",
+          "tertiary-dark": "#6E7681",
+          "quaternary-dark": "#484F58",
+          "primary-light": "#1F2328",
+          "secondary-light": "#656D76",
+          "tertiary-light": "#8C959F",
+          "quaternary-light": "#B7BFC7",
+        },
+        border: {
+          dark: "#30363D",
+          light: "#D0D7DE",
+          focus: "#E94560",
+        },
+      },
+      fontFamily: {
+        sans: [
+          "Inter",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "sans-serif",
+        ],
+        mono: ["SF Mono", "Fira Code", "JetBrains Mono", "monospace"],
+        bengali: ["var(--font-bengali)", "Inter", "sans-serif"],
+      },
+      fontSize: {
+        display: ["40px", { lineHeight: "1.1", fontWeight: "500" }],
+        h1: ["28px", { lineHeight: "1.2", fontWeight: "500" }],
+        h2: ["22px", { lineHeight: "1.3", fontWeight: "500" }],
+        h3: ["18px", { lineHeight: "1.4", fontWeight: "500" }],
+        h4: ["16px", { lineHeight: "1.4", fontWeight: "500" }],
+        body: ["16px", { lineHeight: "1.5", fontWeight: "400" }],
+        "body-sm": ["14px", { lineHeight: "1.5", fontWeight: "400" }],
+        caption: ["12px", { lineHeight: "1.4", letterSpacing: "0.01em", fontWeight: "400" }],
+        button: ["14px", { lineHeight: "1", letterSpacing: "0.01em", fontWeight: "500" }],
+        overline: ["11px", { lineHeight: "1.2", letterSpacing: "0.05em", fontWeight: "500" }],
+      },
+      spacing: {
+        1: "4px",
+        2: "8px",
+        3: "12px",
+        4: "16px",
+        5: "20px",
+        6: "24px",
+        8: "32px",
+        10: "40px",
+        12: "48px",
+        16: "64px",
+      },
+      borderRadius: {
+        sm: "6px",
+        md: "8px",
+        lg: "10px",
+        xl: "12px",
+        "2xl": "16px",
+        full: "9999px",
+      },
+      transitionDuration: {
+        fast: "100ms",
+        normal: "200ms",
+        slow: "300ms",
+        chart: "800ms",
+      },
+      transitionTimingFunction: {
+        out: "cubic-bezier(0.16, 1, 0.3, 1)",
+        standard: "cubic-bezier(0.4, 0, 0.2, 1)",
+        in: "cubic-bezier(0.4, 0, 1, 1)",
+      },
+      boxShadow: {
+        none: "none",
+      },
+    },
+  },
+  plugins: [],
+};
+export default config;
