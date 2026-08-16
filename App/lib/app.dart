@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:provider/provider.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'core/providers/app_providers.dart';
 import 'core/theme/app_theme.dart';
 import 'l10n/app_localizations.dart';
 import 'screens/onboarding/onboarding_flow.dart';
 import 'screens/home/home_shell.dart';
 import 'state/app_state.dart';
 
-class ShusthoApp extends StatelessWidget {
+class ShusthoApp extends ConsumerWidget {
   const ShusthoApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer<AppState>(
-      builder: (context, state, _) {
-        return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(appStateProvider);
+    return MaterialApp(
           title: 'Shustho',
           debugShowCheckedModeBanner: false,
           theme: AppTheme.light(),
@@ -33,7 +32,5 @@ class ShusthoApp extends StatelessWidget {
               ? const HomeShell()
               : const OnboardingFlow(),
         );
-      },
-    );
   }
 }

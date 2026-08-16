@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/providers/app_providers.dart';
 
 import '../../core/theme/app_tokens.dart';
 import '../../core/utils/date_formats.dart';
@@ -11,16 +12,16 @@ import '../../widgets/app_button.dart';
 import '../../widgets/app_card.dart';
 import '../../widgets/selectable_chip.dart';
 
-class LogPeriodScreen extends StatefulWidget {
+class LogPeriodScreen extends ConsumerStatefulWidget {
   const LogPeriodScreen({super.key, this.initialDate});
 
   final DateTime? initialDate;
 
   @override
-  State<LogPeriodScreen> createState() => _LogPeriodScreenState();
+  ConsumerState<LogPeriodScreen> createState() => _LogPeriodScreenState();
 }
 
-class _LogPeriodScreenState extends State<LogPeriodScreen> {
+class _LogPeriodScreenState extends ConsumerState<LogPeriodScreen> {
   late DateTime _date;
   late FlowLevel _flow;
   ProductUsed _product = ProductUsed.none;
@@ -53,7 +54,7 @@ class _LogPeriodScreenState extends State<LogPeriodScreen> {
   }
 
   Future<void> _save() async {
-    final controller = context.read<CycleController>();
+    final controller = ref.read(cycleControllerProvider;
     final existing = controller.entryFor(_date);
     if (existing != null) {
       existing
@@ -83,7 +84,7 @@ class _LogPeriodScreenState extends State<LogPeriodScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
 
@@ -279,7 +280,7 @@ class _LogPeriodScreenState extends State<LogPeriodScreen> {
             style: AppButtonStyle.ghost,
             expanded: true,
             onPressed: () async {
-              await context.read<CycleController>().markNotPeriod(_date);
+              await ref.read(cycleControllerProvider.markNotPeriod(_date);
               if (!context.mounted) return;
               Navigator.of(context).pop();
             },
@@ -290,14 +291,14 @@ class _LogPeriodScreenState extends State<LogPeriodScreen> {
   }
 }
 
-class _DateRow extends StatelessWidget {
+class _DateRow extends ConsumerWidget {
   const _DateRow({required this.label, required this.onTap});
 
   final String label;
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(AppRadii.control),

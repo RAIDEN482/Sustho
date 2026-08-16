@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/providers/app_providers.dart';
 import '../../core/theme/app_tokens.dart';
 import '../../core/utils/cycle_engine.dart';
 import '../../core/utils/date_utils.dart';
@@ -14,13 +14,13 @@ import '../log/log_period_screen.dart';
 import '../log/log_symptoms_screen.dart';
 import 'phase_info.dart';
 
-class TodayScreen extends StatelessWidget {
+class TodayScreen extends ConsumerWidget {
   const TodayScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final controller = context.watch<CycleController>();
+    final controller = ref.watch(cycleControllerProvider);
     final prediction = controller.prediction;
     final todayDate = today();
 

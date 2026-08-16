@@ -3,6 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../models/cycle_entry.dart';
 import 'app_settings.dart';
 import 'cycle_entry_adapter.dart';
+import 'secure_storage.dart';
 
 /// Central repository for all local (offline-first) persistence.
 class AppRepository {
@@ -26,9 +27,14 @@ class AppRepository {
 
   Future<void> init() async {
     Hive.registerAdapter(CycleEntryAdapter());
-    _settingsBox ??= await Hive.openBox<dynamic>(settingsBoxName);
-    _entriesBox ??= await Hive.openBox<CycleEntry>(entriesBoxName);
-    _nutritionBox ??= await Hive.openBox<dynamic>(nutritionBoxName);
+    
+    final secureStorage = SecureStorageService();
+    final encryptionKey = await secureStorage.getEncryptionKey();
+    final cipher = HiveAesCipher(encryptionKey);
+
+    _settingsBox ??= await Hive.openBox<dynamic>(settingsBoxName, encryptionCipher: cipher);
+    _entriesBox ??= await Hive.openBox<CycleEntry>(entriesBoxName, encryptionCipher: cipher);
+    _nutritionBox ??= await Hive.openBox<dynamic>(nutritionBoxName, encryptionCipher: cipher);
   }
 
   // ---- Entries ----

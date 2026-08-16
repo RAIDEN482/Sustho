@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/providers/app_providers.dart';
 
 import '../../core/theme/app_tokens.dart';
 import '../../core/utils/date_formats.dart';
@@ -10,16 +11,16 @@ import '../../widgets/app_button.dart';
 import '../../widgets/app_card.dart';
 import '../../widgets/selectable_chip.dart';
 
-class LogSymptomsScreen extends StatefulWidget {
+class LogSymptomsScreen extends ConsumerStatefulWidget {
   const LogSymptomsScreen({super.key, this.initialDate});
 
   final DateTime? initialDate;
 
   @override
-  State<LogSymptomsScreen> createState() => _LogSymptomsScreenState();
+  ConsumerState<LogSymptomsScreen> createState() => _LogSymptomsScreenState();
 }
 
-class _LogSymptomsScreenState extends State<LogSymptomsScreen> {
+class _LogSymptomsScreenState extends ConsumerState<LogSymptomsScreen> {
   late DateTime _date;
   final Set<Mood> _moods = {};
   final Set<SymptomType> _symptoms = {};
@@ -70,7 +71,7 @@ class _LogSymptomsScreenState extends State<LogSymptomsScreen> {
   }
 
   Future<void> _save() async {
-    final controller = context.read<CycleController>();
+    final controller = ref.read(cycleControllerProvider;
     await controller.logSymptoms(
       date: _date,
       moods: _moods.toList(),
@@ -95,7 +96,7 @@ class _LogSymptomsScreenState extends State<LogSymptomsScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -599,7 +600,7 @@ class _LogSymptomsScreenState extends State<LogSymptomsScreen> {
   }
 }
 
-class _MoodChip extends StatelessWidget {
+class _MoodChip extends ConsumerWidget {
   const _MoodChip({
     required this.mood,
     required this.selected,
@@ -615,7 +616,7 @@ class _MoodChip extends StatelessWidget {
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final icon = switch (mood) {
       Mood.happy => Icons.wb_sunny_outlined,
       Mood.energetic => Icons.bolt_outlined,
@@ -637,9 +638,9 @@ class _MoodChip extends StatelessWidget {
   }
 }
 
-class _PainGradient extends StatelessWidget {
+class _PainGradient extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       height: 8,
       decoration: BoxDecoration(
@@ -656,14 +657,14 @@ class _PainGradient extends StatelessWidget {
   }
 }
 
-class _DateRow extends StatelessWidget {
+class _DateRow extends ConsumerWidget {
   const _DateRow({required this.label, required this.onTap});
 
   final String label;
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(AppRadii.control),

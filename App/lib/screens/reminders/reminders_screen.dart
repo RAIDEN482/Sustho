@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/providers/app_providers.dart';
 
 import '../../core/theme/app_tokens.dart';
 import '../../l10n/app_localizations.dart';
@@ -7,21 +8,21 @@ import '../../state/reminders_controller.dart';
 import '../../widgets/app_card.dart';
 import '../../widgets/section_header.dart';
 
-class RemindersScreen extends StatefulWidget {
+class RemindersScreen extends ConsumerStatefulWidget {
   const RemindersScreen({super.key});
 
   @override
-  State<RemindersScreen> createState() => _RemindersScreenState();
+  ConsumerState<RemindersScreen> createState() => _RemindersScreenState();
 }
 
-class _RemindersScreenState extends State<RemindersScreen> {
+class _RemindersScreenState extends ConsumerState<RemindersScreen> {
   late TimeOfDay _quietStart;
   late TimeOfDay _quietEnd;
 
   @override
   void initState() {
     super.initState();
-    final controller = context.read<RemindersController>();
+    final controller = ref.read(remindersControllerProvider;
     _quietStart = _parse(controller.quietStart);
     _quietEnd = _parse(controller.quietEnd);
   }
@@ -37,7 +38,7 @@ class _RemindersScreenState extends State<RemindersScreen> {
       '${t.hour.toString().padLeft(2, '0')}:${t.minute.toString().padLeft(2, '0')}';
 
   Future<void> _pickTime({required bool isQuietStart}) async {
-    final controller = context.read<RemindersController>();
+    final controller = ref.read(remindersControllerProvider;
     final picked = await showTimePicker(
       context: context,
       initialTime: isQuietStart ? _quietStart : _quietEnd,
@@ -54,9 +55,9 @@ class _RemindersScreenState extends State<RemindersScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final controller = context.watch<RemindersController>();
+    final controller = ref.watch(remindersControllerProvider;
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.reminders)),
@@ -204,7 +205,7 @@ class _RemindersScreenState extends State<RemindersScreen> {
   }
 }
 
-class _ReminderToggle extends StatelessWidget {
+class _ReminderToggle extends ConsumerWidget {
   const _ReminderToggle({
     required this.icon,
     required this.color,
@@ -222,7 +223,7 @@ class _ReminderToggle extends StatelessWidget {
   final ValueChanged<bool> onChanged;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
       child: Row(
@@ -258,7 +259,7 @@ class _ReminderToggle extends StatelessWidget {
   }
 }
 
-class _TimeChip extends StatelessWidget {
+class _TimeChip extends ConsumerWidget {
   const _TimeChip({
     required this.icon,
     required this.label,
@@ -270,7 +271,7 @@ class _TimeChip extends StatelessWidget {
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return InkWell(
       onTap: onTap,

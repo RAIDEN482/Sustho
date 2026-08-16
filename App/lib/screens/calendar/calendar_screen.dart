@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/providers/app_providers.dart';
 import '../../core/theme/app_tokens.dart';
 import '../../core/utils/cycle_engine.dart';
 import '../../core/utils/date_formats.dart';
@@ -14,14 +14,14 @@ import '../../widgets/section_header.dart';
 import '../log/log_period_screen.dart';
 import '../log/log_symptoms_screen.dart';
 
-class CalendarScreen extends StatefulWidget {
+class CalendarScreen extends ConsumerStatefulWidget {
   const CalendarScreen({super.key});
 
   @override
-  State<CalendarScreen> createState() => _CalendarScreenState();
+  ConsumerState<CalendarScreen> createState() => _CalendarScreenState();
 }
 
-class _CalendarScreenState extends State<CalendarScreen> {
+class _CalendarScreenState extends ConsumerState<CalendarScreen> {
   late DateTime _month;
 
   @override
@@ -37,7 +37,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final controller = context.watch<CycleController>();
+    final controller = ref.watch(cycleControllerProvider);
     final prediction = controller.prediction;
 
     return Scaffold(
@@ -68,7 +68,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   void _showDaySheet(BuildContext context, DateTime day) {
-    final controller = context.read<CycleController>();
+    final controller = ref.read(cycleControllerProvider);
     showModalBottomSheet(
       context: context,
       showDragHandle: true,

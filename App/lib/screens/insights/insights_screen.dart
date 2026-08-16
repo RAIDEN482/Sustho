@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/providers/app_providers.dart';
 
 import '../../core/theme/app_tokens.dart';
 import '../../core/utils/cycle_engine.dart';
@@ -10,13 +11,13 @@ import '../../widgets/app_card.dart';
 import '../../widgets/section_header.dart';
 import '../../widgets/stat_card.dart';
 
-class InsightsScreen extends StatelessWidget {
+class InsightsScreen extends ConsumerWidget {
   const InsightsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final controller = context.watch<CycleController>();
+    final controller = ref.watch(cycleControllerProvider;
     final prediction = controller.prediction;
     final periodDays = controller.periodDays;
 
@@ -78,13 +79,13 @@ class InsightsScreen extends StatelessWidget {
   }
 }
 
-class _TrendSection extends StatelessWidget {
+class _TrendSection extends ConsumerWidget {
   const _TrendSection({required this.periodDays});
 
   final List<DateTime> periodDays;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final lengths = CycleEngine.observedCycleLengths(periodDays);
     final loggedStarts = CycleEngine.periodStarts(periodDays);
@@ -197,13 +198,13 @@ class _CycleTrendPainter extends CustomPainter {
       old.lengths != lengths;
 }
 
-class _NextFertileCard extends StatelessWidget {
+class _NextFertileCard extends ConsumerWidget {
   const _NextFertileCard({required this.prediction});
 
   final CyclePrediction prediction;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
 
@@ -246,11 +247,11 @@ class _NextFertileCard extends StatelessWidget {
   }
 }
 
-class _RedFlagsCard extends StatelessWidget {
+class _RedFlagsCard extends ConsumerWidget {
   const _RedFlagsCard();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final flags = [

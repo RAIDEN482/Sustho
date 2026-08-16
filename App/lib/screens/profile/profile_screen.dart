@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/providers/app_providers.dart';
 
 import '../../core/theme/app_tokens.dart';
 import '../../l10n/app_localizations.dart';
@@ -9,13 +10,13 @@ import '../../widgets/app_card.dart';
 import '../nutrition/nutrition_hub_screen.dart';
 import '../reminders/reminders_screen.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final appState = context.watch<AppState>();
+    final appState = ref.watch(appStateProvider;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
@@ -101,14 +102,14 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-class _LanguageCard extends StatelessWidget {
+class _LanguageCard extends ConsumerWidget {
   const _LanguageCard({required this.appState, required this.l10n});
 
   final AppState appState;
   final AppLocalizations l10n;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,14 +142,14 @@ class _LanguageCard extends StatelessWidget {
   }
 }
 
-class _ThemeCard extends StatelessWidget {
+class _ThemeCard extends ConsumerWidget {
   const _ThemeCard({required this.appState, required this.l10n});
 
   final AppState appState;
   final AppLocalizations l10n;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -190,7 +191,7 @@ class _ThemeCard extends StatelessWidget {
   }
 }
 
-class _NavCard extends StatelessWidget {
+class _NavCard extends ConsumerWidget {
   const _NavCard({
     required this.icon,
     required this.color,
@@ -206,7 +207,7 @@ class _NavCard extends StatelessWidget {
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     return AppCard(
       child: InkWell(
@@ -245,17 +246,17 @@ class _NavCard extends StatelessWidget {
   }
 }
 
-class _GuardianCard extends StatefulWidget {
+class _GuardianCard extends ConsumerStatefulWidget {
   const _GuardianCard({required this.appState, required this.l10n});
 
   final AppState appState;
   final AppLocalizations l10n;
 
   @override
-  State<_GuardianCard> createState() => _GuardianCardState();
+  ConsumerState<_GuardianCard> createState() => __GuardianCardState();
 }
 
-class _GuardianCardState extends State<_GuardianCard> {
+class _GuardianCardState extends ConsumerState<_GuardianCard> {
   late final TextEditingController _nameController;
   late final TextEditingController _relationController;
   late bool _enabled;
@@ -346,7 +347,7 @@ class _GuardianCardState extends State<_GuardianCard> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final l10n = widget.l10n;
     final active = widget.appState.guardianEnabled;
@@ -419,13 +420,13 @@ class _GuardianCardState extends State<_GuardianCard> {
   }
 }
 
-class _PrivacyCard extends StatelessWidget {
+class _PrivacyCard extends ConsumerWidget {
   const _PrivacyCard({required this.l10n});
 
   final AppLocalizations l10n;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     return AppCard(
       child: Row(
@@ -447,14 +448,14 @@ class _PrivacyCard extends StatelessWidget {
   }
 }
 
-class _AboutCard extends StatelessWidget {
+class _AboutCard extends ConsumerWidget {
   const _AboutCard({required this.l10n, required this.isDark});
 
   final AppLocalizations l10n;
   final bool isDark;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     return AppCard(
       child: Column(

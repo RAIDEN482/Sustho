@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/providers/app_providers.dart';
 
 import '../../core/theme/app_tokens.dart';
 import '../../core/utils/cycle_engine.dart';
@@ -11,14 +12,14 @@ import '../../widgets/app_button.dart';
 import '../../widgets/app_card.dart';
 import '../../widgets/section_header.dart';
 
-class NutritionHubScreen extends StatelessWidget {
+class NutritionHubScreen extends ConsumerWidget {
   const NutritionHubScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final controller = context.watch<NutritionController>();
-    final cycle = context.watch<CycleController>();
+    final controller = ref.watch(nutritionControllerProvider;
+    final cycle = ref.watch(cycleControllerProvider;
     final today = DateTime.now();
 
     return Scaffold(
@@ -51,7 +52,7 @@ class NutritionHubScreen extends StatelessWidget {
   }
 }
 
-class _WaterCard extends StatelessWidget {
+class _WaterCard extends ConsumerWidget {
   const _WaterCard({
     required this.cups,
     required this.onAdd,
@@ -67,7 +68,7 @@ class _WaterCard extends StatelessWidget {
   static const int _goal = 8;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final progress = (cups / _goal).clamp(0.0, 1.0);
 
@@ -131,14 +132,14 @@ class _WaterCard extends StatelessWidget {
   }
 }
 
-class _PhaseMealCard extends StatelessWidget {
+class _PhaseMealCard extends ConsumerWidget {
   const _PhaseMealCard({required this.phase, required this.l10n});
 
   final CyclePhase phase;
   final AppLocalizations l10n;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final (String title, String desc, IconData icon) = switch (phase) {
       CyclePhase.period => (l10n.menstrualPhase, l10n.ironRich, Icons.local_florist_outlined),
       CyclePhase.fertileWindow || CyclePhase.ovulation => (
@@ -216,7 +217,7 @@ class _PhaseMealCard extends StatelessWidget {
   }
 }
 
-class _IronCard extends StatelessWidget {
+class _IronCard extends ConsumerWidget {
   const _IronCard({
     required this.foods,
     required this.iron,
@@ -228,7 +229,7 @@ class _IronCard extends StatelessWidget {
   final AppLocalizations l10n;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return AppCard(
       child: Column(
@@ -298,17 +299,17 @@ class _IronCard extends StatelessWidget {
   }
 }
 
-class _FoodSearchCard extends StatefulWidget {
+class _FoodSearchCard extends ConsumerStatefulWidget {
   const _FoodSearchCard({required this.onAdd, required this.l10n});
 
   final ValueChanged<FoodItem> onAdd;
   final AppLocalizations l10n;
 
   @override
-  State<_FoodSearchCard> createState() => _FoodSearchCardState();
+  ConsumerState<_FoodSearchCard> createState() => __FoodSearchCardState();
 }
 
-class _FoodSearchCardState extends State<_FoodSearchCard> {
+class _FoodSearchCardState extends ConsumerState<_FoodSearchCard> {
   final TextEditingController _controller = TextEditingController();
   List<FoodItem> _results = [];
 
@@ -325,7 +326,7 @@ class _FoodSearchCardState extends State<_FoodSearchCard> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = widget.l10n;
     return AppCard(
       child: Column(

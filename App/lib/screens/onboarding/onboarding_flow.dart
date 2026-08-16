@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/providers/app_providers.dart';
 
 import '../../core/theme/app_tokens.dart';
 import '../../core/utils/date_formats.dart';
@@ -9,14 +10,14 @@ import '../../state/cycle_controller.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_card.dart';
 
-class OnboardingFlow extends StatefulWidget {
+class OnboardingFlow extends ConsumerStatefulWidget {
   const OnboardingFlow({super.key});
 
   @override
-  State<OnboardingFlow> createState() => _OnboardingFlowState();
+  ConsumerState<OnboardingFlow> createState() => _OnboardingFlowState();
 }
 
-class _OnboardingFlowState extends State<OnboardingFlow> {
+class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
   int _step = 0;
   late DateTime _lastPeriodStart;
   int _cycleLength = 28;
@@ -63,7 +64,7 @@ class _OnboardingFlowState extends State<OnboardingFlow> {
   }
 
   Future<void> _finish() async {
-    final appState = context.read<AppState>();
+    final appState = ref.read(appStateProvider;
     await appState.completeOnboarding(
       lastPeriodStart: _lastPeriodStart,
       cycleLength: _cycleLength,
@@ -73,11 +74,11 @@ class _OnboardingFlowState extends State<OnboardingFlow> {
       guardianEnabled: _guardianEnabled,
     );
     if (!mounted) return;
-    context.read<CycleController>().reload();
+    ref.read(cycleControllerProvider.reload();
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
@@ -183,14 +184,14 @@ class _OnboardingFlowState extends State<OnboardingFlow> {
   }
 }
 
-class _LanguageStep extends StatelessWidget {
+class _LanguageStep extends ConsumerWidget {
   const _LanguageStep({required this.l10n, required this.theme});
 
   final AppLocalizations l10n;
   final ThemeData theme;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.lg),
       child: Column(
@@ -230,7 +231,7 @@ class _LanguageStep extends StatelessWidget {
                   subtitle: 'Bangla',
                   selected: l10n.isBn,
                   onTap: () =>
-                      context.read<AppState>().setLocale(const Locale('bn')),
+                      ref.read(appStateProvider.setLocale(const Locale('bn')),
                 ),
               ),
               const SizedBox(width: AppSpacing.md),
@@ -240,7 +241,7 @@ class _LanguageStep extends StatelessWidget {
                   subtitle: 'ইংরেজি',
                   selected: !l10n.isBn,
                   onTap: () =>
-                      context.read<AppState>().setLocale(const Locale('en')),
+                      ref.read(appStateProvider.setLocale(const Locale('en')),
                 ),
               ),
             ],
@@ -252,7 +253,7 @@ class _LanguageStep extends StatelessWidget {
   }
 }
 
-class _LangCard extends StatelessWidget {
+class _LangCard extends ConsumerWidget {
   const _LangCard({
     required this.label,
     required this.subtitle,
@@ -266,7 +267,7 @@ class _LangCard extends StatelessWidget {
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return AnimatedContainer(
       duration: AppDurations.fast,
       curve: AppCurves.standard,
@@ -309,7 +310,7 @@ class _LangCard extends StatelessWidget {
   }
 }
 
-class _CycleStep extends StatelessWidget {
+class _CycleStep extends ConsumerWidget {
   const _CycleStep({
     required this.l10n,
     required this.theme,
@@ -331,7 +332,7 @@ class _CycleStep extends StatelessWidget {
   final ValueChanged<int> onPeriodLength;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.lg),
       child: ListView(
@@ -455,7 +456,7 @@ class _CycleStep extends StatelessWidget {
   }
 }
 
-class _GuardianStep extends StatelessWidget {
+class _GuardianStep extends ConsumerWidget {
   const _GuardianStep({
     required this.l10n,
     required this.theme,
@@ -477,7 +478,7 @@ class _GuardianStep extends StatelessWidget {
   final ValueChanged<bool> onEnabled;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.lg),
       child: ListView(
