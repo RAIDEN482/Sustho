@@ -16,7 +16,7 @@ class ProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final appState = ref.watch(appStateProvider;
+    final appState = ref.watch(appStateProvider);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
@@ -253,7 +253,7 @@ class _GuardianCard extends ConsumerStatefulWidget {
   final AppLocalizations l10n;
 
   @override
-  ConsumerState<_GuardianCard> createState() => __GuardianCardState();
+  ConsumerState<_GuardianCard> createState() => _GuardianCardState();
 }
 
 class _GuardianCardState extends ConsumerState<_GuardianCard> {
@@ -347,7 +347,7 @@ class _GuardianCardState extends ConsumerState<_GuardianCard> {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = widget.l10n;
     final active = widget.appState.guardianEnabled;

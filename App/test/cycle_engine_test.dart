@@ -70,6 +70,7 @@ void main() {
       final irregular = [
         today.subtract(const Duration(days: 78)),
         today.subtract(const Duration(days: 50)),
+        today,
       ];
       expect(CycleEngine.isRegularCycle(irregular), isFalse);
     });
@@ -94,7 +95,13 @@ void main() {
     test('predicts period phase for a logged start', () {
       final today = DateTime(2026, 1, 2);
       final prediction = CycleEngine.predict(
-        [DateTime(2026, 1, 1)],
+        [
+          DateTime(2026, 1, 1),
+          DateTime(2026, 1, 2),
+          DateTime(2026, 1, 3),
+          DateTime(2026, 1, 4),
+          DateTime(2026, 1, 5),
+        ],
         date: today,
       );
       expect(prediction.inPeriod, isTrue);
@@ -102,7 +109,7 @@ void main() {
     });
 
     test('computes ovulation 14 days before next period', () {
-      final today = DateTime(2026, 1, 1);
+      final today = DateTime(2025, 12, 10);
       final prediction = CycleEngine.predict(
         [DateTime(2025, 12, 1)],
         date: today,
@@ -138,6 +145,7 @@ void main() {
       final prediction = CycleEngine.predict(
         [DateTime(2025, 12, 1)],
         date: today,
+        userPeriodLength: 5,
       );
       // Predicted period starts 2025-12-29.
       expect(

@@ -4,7 +4,6 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
 
 part 'app_database.g.dart';
 
@@ -12,13 +11,13 @@ part 'app_database.g.dart';
 class Symptoms extends Table {
   IntColumn get id => integer().autoIncrement()();
   DateTimeColumn get date => dateTime().unique()();
-  
+
   // Basic tracking
   IntColumn get painLevel => integer().withDefault(const Constant(0))();
   TextColumn get moods => text().withDefault(const Constant('[]'))();
   TextColumn get physicalSymptoms => text().withDefault(const Constant('[]'))();
   TextColumn get notes => text().withDefault(const Constant(''))();
-  
+
   // Future: PCOS / Endometriosis advanced tracking
   IntColumn get acneSeverity => integer().nullable()();
   RealColumn get weight => real().nullable()();
@@ -28,10 +27,10 @@ class Symptoms extends Table {
 
 @DataClassName('NutritionLog')
 class NutritionLogs extends Table {
-  DateTimeColumn get date => dateTime().unique()();
+  DateTimeColumn get date => dateTime()();
   IntColumn get waterCups => integer().withDefault(const Constant(0))();
   TextColumn get foodIds => text().withDefault(const Constant('[]'))();
-  
+
   @override
   Set<Column> get primaryKey => {date};
 }

@@ -7,7 +7,6 @@ import '../../core/utils/date_formats.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/cycle_entry.dart';
 import '../../models/enums.dart';
-import '../../state/cycle_controller.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_card.dart';
 import '../../widgets/selectable_chip.dart';
@@ -54,7 +53,7 @@ class _LogPeriodScreenState extends ConsumerState<LogPeriodScreen> {
   }
 
   Future<void> _save() async {
-    final controller = ref.read(cycleControllerProvider;
+    final controller = ref.read(cycleControllerProvider);
     final existing = controller.entryFor(_date);
     if (existing != null) {
       existing
@@ -84,7 +83,7 @@ class _LogPeriodScreenState extends ConsumerState<LogPeriodScreen> {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
 
@@ -280,7 +279,7 @@ class _LogPeriodScreenState extends ConsumerState<LogPeriodScreen> {
             style: AppButtonStyle.ghost,
             expanded: true,
             onPressed: () async {
-              await ref.read(cycleControllerProvider.markNotPeriod(_date);
+              await ref.read(cycleControllerProvider).markNotPeriod(_date);
               if (!context.mounted) return;
               Navigator.of(context).pop();
             },

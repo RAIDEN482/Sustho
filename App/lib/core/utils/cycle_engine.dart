@@ -227,6 +227,7 @@ class CycleEngine {
     List<DateTime> periodDays, {
     int? userCycleLength,
     DateTime? lastLoggedStart,
+    DateTime? referenceDate,
   }) {
     final cycleLength =
         weightedCycleLength(periodDays, userCycleLength: userCycleLength);
@@ -236,8 +237,8 @@ class CycleEngine {
         : starts.last;
 
     // If the last observed start is too far in the past relative to today,
-    // keep predicting forward from today's anchor window.
-    final now = today();
+    // keep predicting forward from anchor window.
+    final now = referenceDate != null ? dateOnly(referenceDate) : today();
     while (daysBetween(anchor, now) >= cycleLength) {
       anchor = anchor.add(Duration(days: cycleLength));
     }
@@ -282,6 +283,7 @@ class CycleEngine {
       periodDays,
       userCycleLength: userCycleLength,
       lastLoggedStart: lastLoggedStart,
+      referenceDate: day,
     );
 
     // No data at all: report an unknown phase with default-cycle estimates.
@@ -365,8 +367,8 @@ class CycleEngine {
       today: day,
       cycleLength: cycleLength,
       periodLength: periodLength,
-      observedStarts: periodStarts(periodDays),
-      predictedStarts: starts,
+      observedStarts: periodStarts(periodDays).toList(),
+      predictedStarts: starts.where((s) => s.isAfter(day)).toList(),
       phase: phase,
       phaseStart: phaseStart,
       phaseEnd: phaseEnd,
@@ -387,23 +389,26 @@ class CycleEngine {
     CyclePrediction prediction,
   ) {
     final d = dateOnly(day);
-    final starts = prediction.predictedStarts;
-    // A day belongs to a cycle window if it is within [start, start + periodLength).
-    for (final s in starts) {
-      if (!d.isBefore(s) &&
-          d.isBefore(s.add(Duration(days: prediction.periodLength)))) {
-        return CyclePhase.period;
-      }
-    }
-    // Ovulation / fertile window for each predicted start.
+    final starts = [...prediction.observedStarts, ...prediction.predictedStarts];
     for (final s in starts) {
       final ovulation =
           s.add(Duration(days: prediction.cycleLength - ovulationOffset));
-      if (d == ovulation) return CyclePhase.ovulation;
-      final fStart = ovulation.subtract(const Duration(days: 5));
-      final fEnd = ovulation.add(const Duration(days: 1));
-      if (!d.isBefore(fStart) && !d.isAfter(fEnd)) {
-        return CyclePhase.fertileWindow;
+      final periodEnd = s.add(Duration(days: prediction.periodLength - 1));
+      final nextStart = s.add(Duration(days: prediction.cycleLength));
+
+      // Check if day belongs to this cycle window
+      if (!d.isBefore(s) && d.isBefore(nextStart)) {
+        if (!d.isAfter(periodEnd)) return CyclePhase.period;
+        if (d == ovulation) return CyclePhase.ovulation;
+        
+        final fStart = ovulation.subtract(const Duration(days: 5));
+        final fEnd = ovulation.add(const Duration(days: 1));
+        if (!d.isBefore(fStart) && !d.isAfter(fEnd)) {
+          return CyclePhase.fertileWindow;
+        }
+        
+        if (d.isBefore(ovulation)) return CyclePhase.follicular;
+        return CyclePhase.luteal;
       }
     }
     return null;

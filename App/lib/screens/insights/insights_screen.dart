@@ -6,7 +6,6 @@ import '../../core/theme/app_tokens.dart';
 import '../../core/utils/cycle_engine.dart';
 import '../../core/utils/date_formats.dart';
 import '../../l10n/app_localizations.dart';
-import '../../state/cycle_controller.dart';
 import '../../widgets/app_card.dart';
 import '../../widgets/section_header.dart';
 import '../../widgets/stat_card.dart';
@@ -17,7 +16,7 @@ class InsightsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final controller = ref.watch(cycleControllerProvider;
+    final controller = ref.watch(cycleControllerProvider);
     final prediction = controller.prediction;
     final periodDays = controller.periodDays;
 

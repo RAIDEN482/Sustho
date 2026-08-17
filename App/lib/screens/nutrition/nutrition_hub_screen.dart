@@ -6,8 +6,6 @@ import '../../core/theme/app_tokens.dart';
 import '../../core/utils/cycle_engine.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/food_item.dart';
-import '../../state/cycle_controller.dart';
-import '../../state/nutrition_controller.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_card.dart';
 import '../../widgets/section_header.dart';
@@ -18,8 +16,8 @@ class NutritionHubScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final controller = ref.watch(nutritionControllerProvider;
-    final cycle = ref.watch(cycleControllerProvider;
+    final controller = ref.watch(nutritionControllerProvider);
+    final cycle = ref.watch(cycleControllerProvider);
     final today = DateTime.now();
 
     return Scaffold(
@@ -306,7 +304,7 @@ class _FoodSearchCard extends ConsumerStatefulWidget {
   final AppLocalizations l10n;
 
   @override
-  ConsumerState<_FoodSearchCard> createState() => __FoodSearchCardState();
+  ConsumerState<_FoodSearchCard> createState() => _FoodSearchCardState();
 }
 
 class _FoodSearchCardState extends ConsumerState<_FoodSearchCard> {
@@ -326,7 +324,7 @@ class _FoodSearchCardState extends ConsumerState<_FoodSearchCard> {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l10n = widget.l10n;
     return AppCard(
       child: Column(

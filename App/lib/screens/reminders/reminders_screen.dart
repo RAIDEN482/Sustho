@@ -22,7 +22,7 @@ class _RemindersScreenState extends ConsumerState<RemindersScreen> {
   @override
   void initState() {
     super.initState();
-    final controller = ref.read(remindersControllerProvider;
+    final controller = ref.read(remindersControllerProvider);
     _quietStart = _parse(controller.quietStart);
     _quietEnd = _parse(controller.quietEnd);
   }
@@ -38,7 +38,7 @@ class _RemindersScreenState extends ConsumerState<RemindersScreen> {
       '${t.hour.toString().padLeft(2, '0')}:${t.minute.toString().padLeft(2, '0')}';
 
   Future<void> _pickTime({required bool isQuietStart}) async {
-    final controller = ref.read(remindersControllerProvider;
+    final controller = ref.read(remindersControllerProvider);
     final picked = await showTimePicker(
       context: context,
       initialTime: isQuietStart ? _quietStart : _quietEnd,
@@ -55,9 +55,9 @@ class _RemindersScreenState extends ConsumerState<RemindersScreen> {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final controller = ref.watch(remindersControllerProvider;
+    final controller = ref.watch(remindersControllerProvider);
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.reminders)),

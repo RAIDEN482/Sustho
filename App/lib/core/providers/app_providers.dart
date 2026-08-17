@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/app_repository.dart';
 import '../../data/database/app_database.dart';
@@ -61,12 +60,14 @@ final cycleControllerProvider = ChangeNotifierProvider<CycleController>((ref) {
   return CycleController(repo)..reload();
 });
 
-final nutritionControllerProvider = ChangeNotifierProvider<NutritionController>((ref) {
+final nutritionControllerProvider =
+    ChangeNotifierProvider<NutritionController>((ref) {
   final repo = ref.watch(appRepositorySyncProvider);
   return NutritionController(repo);
 });
 
-final remindersControllerProvider = ChangeNotifierProvider<RemindersController>((ref) {
+final remindersControllerProvider =
+    ChangeNotifierProvider<RemindersController>((ref) {
   final repo = ref.watch(appRepositorySyncProvider);
   return RemindersController(repo);
 });

@@ -5,8 +5,6 @@ import '../../core/providers/app_providers.dart';
 import '../../core/theme/app_tokens.dart';
 import '../../core/utils/date_formats.dart';
 import '../../l10n/app_localizations.dart';
-import '../../state/app_state.dart';
-import '../../state/cycle_controller.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_card.dart';
 
@@ -64,7 +62,7 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
   }
 
   Future<void> _finish() async {
-    final appState = ref.read(appStateProvider;
+    final appState = ref.read(appStateProvider);
     await appState.completeOnboarding(
       lastPeriodStart: _lastPeriodStart,
       cycleLength: _cycleLength,
@@ -74,11 +72,11 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
       guardianEnabled: _guardianEnabled,
     );
     if (!mounted) return;
-    ref.read(cycleControllerProvider.reload();
+    ref.read(cycleControllerProvider).reload();
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
@@ -231,7 +229,7 @@ class _LanguageStep extends ConsumerWidget {
                   subtitle: 'Bangla',
                   selected: l10n.isBn,
                   onTap: () =>
-                      ref.read(appStateProvider.setLocale(const Locale('bn')),
+                      ref.read(appStateProvider).setLocale(const Locale('bn')),
                 ),
               ),
               const SizedBox(width: AppSpacing.md),
@@ -241,7 +239,7 @@ class _LanguageStep extends ConsumerWidget {
                   subtitle: 'ইংরেজি',
                   selected: !l10n.isBn,
                   onTap: () =>
-                      ref.read(appStateProvider.setLocale(const Locale('en')),
+                      ref.read(appStateProvider).setLocale(const Locale('en')),
                 ),
               ),
             ],

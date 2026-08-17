@@ -6,7 +6,6 @@ import '../../core/theme/app_tokens.dart';
 import '../../core/utils/date_formats.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/enums.dart';
-import '../../state/cycle_controller.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_card.dart';
 import '../../widgets/selectable_chip.dart';
@@ -71,7 +70,7 @@ class _LogSymptomsScreenState extends ConsumerState<LogSymptomsScreen> {
   }
 
   Future<void> _save() async {
-    final controller = ref.read(cycleControllerProvider;
+    final controller = ref.read(cycleControllerProvider);
     await controller.logSymptoms(
       date: _date,
       moods: _moods.toList(),
@@ -96,7 +95,7 @@ class _LogSymptomsScreenState extends ConsumerState<LogSymptomsScreen> {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
