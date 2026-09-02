@@ -12,55 +12,72 @@ class ShusthoApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Wait for async repository initialization before rendering app content.
+    // Wait for the repository to be ready before accessing sync providers.
     final repoAsync = ref.watch(appRepositoryProvider);
 
     return repoAsync.when(
       loading: () => MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: AppTheme.light(),
-        darkTheme: AppTheme.dark(),
+        theme: ThemeData.light(useMaterial3: true),
         home: const Scaffold(
-          body: Center(child: CircularProgressIndicator()),
+          body: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 24),
+                Text('Loading Shustho...', style: TextStyle(fontSize: 16)),
+              ],
+            ),
+          ),
         ),
       ),
       error: (err, stack) => MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: AppTheme.light(),
-        darkTheme: AppTheme.dark(),
+        theme: ThemeData.light(useMaterial3: true),
         home: Scaffold(
           body: Center(
             child: Padding(
               padding: const EdgeInsets.all(32),
-              child: Text(
-                'Failed to initialize: $err',
-                textAlign: TextAlign.center,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Failed to initialize:\n$err',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 14),
+                  ),
+                ],
               ),
             ),
           ),
         ),
       ),
-      data: (_) {
-        final state = ref.watch(appStateProvider);
-        return MaterialApp(
-          title: 'Shustho',
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.light(),
-          darkTheme: AppTheme.dark(),
-          themeMode: state.themeMode,
-          locale: state.locale,
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('bn')],
-          home: state.onboardingCompleted
-              ? const HomeShell()
-              : const OnboardingFlow(),
-        );
-      },
+      data: (_) => _buildApp(ref),
+    );
+  }
+
+  Widget _buildApp(WidgetRef ref) {
+    final state = ref.watch(appStateProvider);
+    return MaterialApp(
+      title: 'Shustho',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.light(),
+      darkTheme: AppTheme.dark(),
+      themeMode: state.themeMode,
+      locale: state.locale,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('en'), Locale('bn')],
+      home: state.onboardingCompleted
+          ? const HomeShell()
+          : const OnboardingFlow(),
     );
   }
 }
