@@ -6,7 +6,7 @@ import 'package:drift/web.dart';
 QueryExecutor openConnection(List<int> encryptionKey) {
   return LazyDatabase(() async {
     try {
-      final storage = await DriftWebStorage.indexedDb('shustho_db');
+      final storage = DriftWebStorage.indexedDb('shustho_db');
       return WebDatabase.withStorage(storage);
     } catch (_) {
       return WebDatabase('shustho_db');

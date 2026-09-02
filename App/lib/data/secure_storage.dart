@@ -15,9 +15,10 @@ class SecureStorageService {
       return _webFallbackKey();
     }
 
-    final secureStorage = const FlutterSecureStorage();
-    final String? encodedKey = await secureStorage.read(key: _encryptionKeyName);
-    
+    const secureStorage = FlutterSecureStorage();
+    final String? encodedKey =
+        await secureStorage.read(key: _encryptionKeyName);
+
     if (encodedKey != null) {
       return base64Url.decode(encodedKey);
     } else {
@@ -34,7 +35,7 @@ class SecureStorageService {
   /// Clears the stored encryption key (e.g., for a full app reset).
   Future<void> clearKey() async {
     if (kIsWeb) return;
-    final secureStorage = const FlutterSecureStorage();
+    const secureStorage = FlutterSecureStorage();
     await secureStorage.delete(key: _encryptionKeyName);
   }
 
