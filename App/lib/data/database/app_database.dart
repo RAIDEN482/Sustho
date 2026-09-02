@@ -1,9 +1,5 @@
-import 'dart:io';
-
 import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
+import 'connection/connection.dart' as impl;
 
 part 'app_database.g.dart';
 
@@ -37,22 +33,8 @@ class NutritionLogs extends Table {
 
 @DriftDatabase(tables: [Symptoms, NutritionLogs])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase(List<int> encryptionKey) : super(_openConnection(encryptionKey));
+  AppDatabase(List<int> encryptionKey) : super(impl.openConnection(encryptionKey));
 
   @override
   int get schemaVersion => 1;
-}
-
-LazyDatabase _openConnection(List<int> encryptionKey) {
-  return LazyDatabase(() async {
-    final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'shustho_db.sqlite'));
-
-    // Apply SQLCipher encryption pragmas if needed, or rely on encrypted filesystem
-    // For sqlite3_flutter_libs, we can use sqlite3.open
-    return NativeDatabase.createInBackground(file, setup: (db) {
-      // In a real implementation with sqlcipher, we would run:
-      // db.execute("PRAGMA key = '${base64Encode(encryptionKey)}';");
-    });
-  });
 }
