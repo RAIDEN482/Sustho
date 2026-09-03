@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -55,19 +56,20 @@ class ShusthoApp extends ConsumerWidget {
           ),
         ),
       ),
-      data: (_) => _buildApp(ref),
+      data: (_) => _buildApp(ref, context),
     );
   }
 
-  Widget _buildApp(WidgetRef ref) {
+  Widget _buildApp(WidgetRef ref, BuildContext context) {
     final state = ref.watch(appStateProvider);
     return MaterialApp(
       title: 'Shustho',
       debugShowCheckedModeBanner: false,
+      builder: DevicePreview.appBuilder,
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
       themeMode: state.themeMode,
-      locale: state.locale,
+      locale: DevicePreview.locale(context) ?? state.locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
